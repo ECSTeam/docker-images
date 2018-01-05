@@ -1,0 +1,54 @@
+resources:
+- name: docker-images
+  type: git
+  source:
+    uri: https://github.com/ECSTeam/docker-images.git
+    branch: master
+    username: ((GIT_USERNAME))
+    password: ((GIT_PASSWORD))
+
+
+#- name: version
+#  type: semver
+#  source:
+#    initial_version: 1.0.0
+#    driver: s3
+#    bucket: ((s3_bucket))
+#    key: ((s3_semver_key))
+#    access_key_id: ((access_key_id))
+#    secret_access_key: ((secret_access_key))
+#    region_name: ((s3_region))
+
+- name: concourse-base
+  type: docker-image
+  source:
+    email: ((docker-hub-email))
+    username: ((docker-hub-username))
+    password: ((docker-hub-password))
+    repository: ((docker-hub-username))/concourse-base
+    #tag: 1.1
+
+jobs:
+- name: publish
+  public: true
+  plan:
+  - get: docker-images
+#  - put: version
+#    params: {bump: minor}
+  - put: concourse-base
+    params:
+      build: docker-images/concourse-base
+#      tag: version/version
+      tag: 1.0.0
+#  - task: run
+#    config:
+#      platform: linux
+#      image_resource:
+#        type: docker-image
+#        source:
+#          repository: ((docker-hub-username))/concourse-tutorial-hello-world
+#      run:
+#        path: /bin/hello-world
+#        args: []
+#      params:
+#        NAME: ((docker-hub-username))
