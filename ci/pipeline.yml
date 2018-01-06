@@ -38,15 +38,3 @@ jobs:
     params:
       build: docker-images/concourse-ubuntu
 #      tag: version/version
-#  - task: run
-#    config:
-#      platform: linux
-#      image_resource:
-#        type: docker-image
-#        source:
-#          repository: ((docker-hub-username))/concourse-tutorial-hello-world
-#      run:
-#        path: /bin/hello-world
-#        args: []
-#      params:
-#        NAME: ((docker-hub-username))
