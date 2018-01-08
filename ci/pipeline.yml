@@ -4,8 +4,8 @@ resources:
   source:
     uri: https://github.com/ECSTeam/docker-images.git
     branch: master
-    username: ((git-svc-user))
-    password: ((git-svc-token))
+#    username: ((git-svc-user))
+#    password: ((git-svc-token))
 
 #- name: version
 #  type: semver
