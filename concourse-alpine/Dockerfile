@@ -1,4 +1,3 @@
-#Docker image with aws-cli for copying Sonic PCF backup files
 FROM alpine:3.5
 RUN apk update
 RUN apk add bash wget curl jq
