@@ -3,7 +3,7 @@ resources:
   type: git
   source:
     uri: https://github.com/ECSTeam/docker-images.git
-    branch: ubuntu-fix
+    branch: master
 #    username: ((git-svc-user))
 #    password: ((git-svc-token))
 
