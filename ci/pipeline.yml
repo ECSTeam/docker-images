@@ -3,7 +3,7 @@ resources:
   type: git
   source:
     uri: https://github.com/ECSTeam/docker-images.git
-    branch: master
+    branch: build-verify
 #    username: ((git-svc-user))
 #    password: ((git-svc-token))
 
@@ -18,17 +18,25 @@ resources:
 #    secret_access_key: ((secret_access_key))
 #    region_name: ((s3_region))
 
-- name: concourse-ubuntu
+- name: concourse-ubuntu-latest-rc
   type: docker-image
   source:
 #    email: ((docker-hub-email))
     username: ((docker-hub-user))
     password: ((docker-hub-password))
-    repository: cgicloudnative/concourse-ubuntu
-    tag: 1.1.0
+    repository: {{docker-hub-repo}}
+    tag: latest-rc
+- name: concourse-ubuntu-latest
+  type: docker-image
+  source:
+#    email: ((docker-hub-email))
+    username: ((docker-hub-user))
+    password: ((docker-hub-password))
+    repository: {{docker-hub-repo}}
+    tag: latest
 
 jobs:
-- name: publish
+- name: build-concourse-latest-rc
   public: true
   plan:
   - get: docker-images
@@ -38,3 +46,29 @@ jobs:
     params:
       build: docker-images/concourse-ubuntu
 #      tag: version/version
+- name: test-docker-image
+  public: true
+  plan:
+  - get: docker-images
+    passed: build-concourse-latest-rc
+  - task: run
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: {{docker-hub-repo}}
+          tag: latest-rc
+      inputs:
+      - name: docker-images
+      run:
+        path: docker-images/ci/scripts/test-docker.sh
+- name: push-concourse-latest
+  public: true
+  plan:
+  - get: concourse-ubuntu-latest-rc
+    passed: test-docker-image
+    params: { save: true }
+  - put: concourse-ubuntu-latest
+    params:
+      load: concourse-ubuntu-latest-rc
