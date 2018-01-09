@@ -1,2 +1,3 @@
-# bosh-omg
-Everything needed to create the docker image for managing BOSH using the OMG tool.
+Ubuntu Xenial-based docker image for use in concourse pipeline.
+
+Contains CLI's for major cloud environments (AWS, GCP, Azure).
