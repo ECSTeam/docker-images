@@ -1,29 +1,41 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
-RUN apt-get update
-RUN apt-get install -y unzip wget git gnupg2 curl
-RUN apt-get install -y build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev
+ADD scripts/install_aws_cli.sh /opt/scripts/
+ADD scripts/install_azure_cli.sh /opt/scripts/
+
+RUN apt-get update && \
+    apt-get install -y unzip wget git gnupg2 curl vim-common lsb-release python3-pip && \
+    ln -s /usr/bin/python3 /usr/local/bin/python && \
+    pip3 install --upgrade pip
+
+# Install AWS CLI
+RUN /opt/scripts/install_aws_cli.sh
+
+
+# Install BOSH CLI v1 and dependencies
+RUN apt-get update && \
+    apt-get install -y build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev && \
+    gem install bosh_cli --no-ri --no-rdoc && \
+    mv /usr/local/bin/bosh /usr/local/bin/bosh1
+
+# Install BOSH CLI v2 and dependencies
+RUN apt-get update && \
+    apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 && \
+    wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.45-linux-amd64 && \
+    chmod +x bosh-cli-* && \
+    mv bosh-cli-* /usr/local/bin/bosh
+
+# Install Google Cloud CLI
 RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
-    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
-    sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    apt-get update && apt-get install -y google-cloud-sdk
 
-
-RUN gem install bosh_cli --no-ri --no-rdoc
-
-# copy bash script to parse the private key in environment variable
-COPY createPrivateKey.sh createPrivateKey.sh
-RUN chmod a+x createPrivateKey.sh
-RUN ln createPrivateKey.sh /usr/local/bin/createPrivateKey.sh
-
-# copy ip functions
-COPY ip_functions.sh ip_functions.sh
-COPY test_ip_functions.sh test_ip_functions.sh
-RUN chmod a+x ip_functions.sh
-RUN chmod a+x test_ip_functions.sh
+# Install Azure CLI
+RUN /opt/scripts/install_azure_cli.sh
 
 # get and configure terraform
-RUN wget https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip
-RUN unzip terraform_0.11.1_linux_amd64.zip
-RUN chmod a+x terraform
-RUN ln terraform /usr/local/bin/terraform
+RUN wget https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip && \
+    unzip terraform_0.11.1_linux_amd64.zip && \
+    chmod a+x terraform && \
+    ln terraform /usr/local/bin/terraform
