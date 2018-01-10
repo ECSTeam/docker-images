@@ -1,41 +1,34 @@
-FROM alpine:3.5
-## ^^ update to newer alpine?
-## fewer RUN commands (like ubuntu)?
+FROM alpine:3.7
+ENV GLOUD_VER 183.0.0
 
 RUN apk update
-RUN apk add bash wget curl jq
-RUN apk add openssh
+RUN apk add bash wget curl jq openssh ruby ruby-dev ruby-rdoc gcc make g++ musl-dev groff less python python3 py3-pip openssl
 
-RUN apk --update add ruby ruby-dev gcc make g++ musl-dev
-RUN gem install bosh_cli --no-ri --no-rdoc
-RUN gem install json --no-ri --no-rdoc
-#RUN gem install cf-uaac --no-ri --no-rdoc
+# AWS CLI
+RUN pip3 install awscli --upgrade --user && \
+    echo "export PATH=~/.local/bin:$PATH" >> ~/.profile && \
+    source ~/.profile
 
-## test bosh 2
-## add new TF (w cleanup)
+# BOSH CLI v2
+RUN wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.45-linux-amd64 && \
+    chmod +x bosh-cli-* && \
+    mv bosh-cli-* /usr/local/bin/bosh
 
-COPY om-alpine om-alpine
-COPY terraform terraform
-#COPY pcf-metadata pcf-metadata
-COPY bosh bosh
+RUN gem install cf-uaac
 
-# find better way and/or upgrade to pip/python3
-RUN mkdir -p /aws
-RUN apk -Uuv add groff less python py-pip
-RUN pip install awscli
-RUN pip install --upgrade pip
+# Google Cloud CLI
+RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VER}-linux-x86_64.tar.gz && \
+    tar xzf google-cloud-sdk-${GCLOUD_VER}-linux-x86_64.tar.gz && \
+    rm google-cloud-sdk-${GCLOUD_VER}-linux-x86_64.tar.gz && \
+    echo "export PATH=/google-cloud-sdk/bin:$PATH" >> ~/.profile && \
+    source ~/.profile
 
-#remove tile-gen and s3cmd?
-RUN pip install tile-generator
-RUN pip install s3cmd
+## terraform
+RUN wget https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip && \
+    unzip terraform_0.11.2_linux_amd64.zip && \
+    chmod a+x terraform && \
+    mv terraform /usr/local/bin/terraform && \
+    rm terraform_0.11.2_linux_amd64.zip
 
-
-RUN apk add openssl
-
-# remove this?? possibly just for pcf-tile-version tool for Sonic
-RUN apk add perl
-RUN apk add perl-json
-
-#look into this
 #RUN apk --purge -v del py-pip
 RUN rm /var/cache/apk/*
