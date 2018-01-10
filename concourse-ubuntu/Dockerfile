@@ -39,5 +39,5 @@ RUN /opt/scripts/install_azure_cli.sh
 RUN wget https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip && \
     unzip terraform_0.11.2_linux_amd64.zip && \
     chmod a+x terraform && \
-    ln terraform /usr/local/bin/terraform && \
+    mv terraform /usr/local/bin/terraform && \
     rm terraform_0.11.2_linux_amd64.zip
