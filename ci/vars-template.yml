@@ -1,0 +1,5 @@
+docker-hub-repo: cgicloudnative/concourse-ubuntu
+
+# pull following from vault; use if repo is not cgicloudnative
+#docker-hub-user: ((docker-hub-user))
+#docker-hub-password: ((docker-hub-password))
