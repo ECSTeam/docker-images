@@ -11,20 +11,20 @@ resources:
   type: git
   source:
     uri: https://github.com/ECSTeam/docker-images.git
-    branch: build-verify
+    branch: master
 
 - name: concourse-ubuntu-latest-rc
   type: docker-image
   source:
-    username: {{docker-hub-user}}
-    password: {{docker-hub-password}}
+    username: ((docker-hub-user))
+    password: ((docker-hub-password))
     repository: {{docker-hub-repo}}
     tag: latest-rc
 - name: concourse-ubuntu-latest
   type: docker-image
   source:
-    username: {{docker-hub-user}}
-    password: {{docker-hub-password}}
+    username: ((docker-hub-user))
+    password: ((docker-hub-password))
     repository: {{docker-hub-repo}}
     tag: latest
 
@@ -33,6 +33,7 @@ jobs:
   public: true
   plan:
   - get: docker-images-git
+#    trigger: true
   - put: concourse-ubuntu-latest-rc
     params:
       build: docker-images-git/concourse-ubuntu
