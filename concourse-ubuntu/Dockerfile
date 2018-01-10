@@ -4,7 +4,7 @@ ADD scripts/install_aws_cli.sh /opt/scripts/
 ADD scripts/install_azure_cli.sh /opt/scripts/
 
 RUN apt-get update && \
-    apt-get install -y unzip wget git gnupg2 curl vim-common lsb-release python3-pip && \
+    apt-get install -y unzip wget git gnupg2 curl vim-common lsb-release apt-transport-https python3-pip && \
     ln -s /usr/bin/python3 /usr/local/bin/python && \
     pip3 install --upgrade pip
 
@@ -24,7 +24,6 @@ RUN gem install cf-uaac
 RUN wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add - && \
     echo "deb http://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list && \
     apt-get update && \
-    apt-get install -y apt-transport-https && \
     apt-get install -y cf-cli
 
 # Install Google Cloud CLI
