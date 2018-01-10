@@ -11,19 +11,21 @@ RUN apt-get update && \
 # Install AWS CLI
 RUN /opt/scripts/install_aws_cli.sh
 
-
-# Install BOSH CLI v1 and dependencies
-RUN apt-get update && \
-    apt-get install -y build-essential ruby ruby-dev libxml2-dev libsqlite3-dev libxslt1-dev libpq-dev libmysqlclient-dev zlib1g-dev && \
-    gem install bosh_cli --no-ri --no-rdoc && \
-    mv /usr/local/bin/bosh /usr/local/bin/bosh1
-
 # Install BOSH CLI v2 and dependencies
 RUN apt-get update && \
     apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 && \
     wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.45-linux-amd64 && \
     chmod +x bosh-cli-* && \
     mv bosh-cli-* /usr/local/bin/bosh
+
+RUN gem install cf-uaac
+
+# Install cf-cli
+RUN wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add - && \
+    echo "deb http://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list && \
+    apt-get update && \
+    apt-get install -y apt-transport-https
+    apt-get install -y cf-cli
 
 # Install Google Cloud CLI
 RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
@@ -35,7 +37,8 @@ RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
 RUN /opt/scripts/install_azure_cli.sh
 
 # get and configure terraform
-RUN wget https://releases.hashicorp.com/terraform/0.11.1/terraform_0.11.1_linux_amd64.zip && \
-    unzip terraform_0.11.1_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip && \
+    unzip terraform_0.11.2_linux_amd64.zip && \
     chmod a+x terraform && \
-    ln terraform /usr/local/bin/terraform
+    ln terraform /usr/local/bin/terraform && \
+    rm terraform_0.11.2_linux_amd64.zip
