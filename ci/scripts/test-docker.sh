@@ -9,4 +9,4 @@ do
   fi
 done
 
-echo "Yay! Specified commands appear to be present."
+echo "Specified commands appear to be present."
