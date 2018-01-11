@@ -12,6 +12,9 @@ resources:
   source:
     uri: https://github.com/ECSTeam/docker-images.git
     branch: master
+    paths:
+      - concourse-ubuntu
+
 
 - name: concourse-ubuntu-latest-rc
   type: docker-image
@@ -33,7 +36,7 @@ jobs:
   public: true
   plan:
   - get: docker-images-git
-    #trigger: true
+    trigger: true
   - put: concourse-ubuntu-latest-rc
     params:
       build: docker-images-git/concourse-ubuntu
