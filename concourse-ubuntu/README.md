@@ -1,3 +1,10 @@
-Ubuntu Xenial-based docker image for use in concourse pipeline.
+Ubuntu Xenial-based Docker container for Concourse pipelines with the following:
 
-Contains CLI's for major cloud environments (AWS, GCP, Azure).
+ - Basic linux tools
+ - BOSH CLI v2
+ - cf-uaac
+ - cf-cli
+ - AWS CLI
+ - Azure CLI
+ - GCP CLI
+ - terraform 0.11.2

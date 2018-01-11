@@ -33,7 +33,7 @@ jobs:
   public: true
   plan:
   - get: docker-images-git
-#    trigger: true
+    trigger: true
   - put: concourse-ubuntu-latest-rc
     params:
       build: docker-images-git/concourse-ubuntu
