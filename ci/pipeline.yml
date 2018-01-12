@@ -1,6 +1,6 @@
 ---
 groups:
-  - name: concourse
+  - name: docker-build
     jobs:
       - 'build-docker-latest-rc'
       - 'test-docker-image'
@@ -10,25 +10,23 @@ resources:
 - name: docker-images
   type: git
   source:
-    uri: {{git-repo}}
+    uri: ((git-repo))
     branch: master
     paths:
-      - concourse-ubuntu
-
-
-- name: {{docker-name}}-docker-latest-rc
+      - ((git-folder))
+- name: ((docker-image-name))-docker-latest-rc
   type: docker-image
   source:
-    username: {{docker-hub-user}}
-    password: {{docker-hub-password}}
-    repository: {{docker-hub-repo}}
+    username: ((docker-hub-user))
+    password: ((docker-hub-password))
+    repository: ((docker-hub-repo))
     tag: latest-rc
-- name: docker-latest
+- name: ((docker-image-name))-docker-latest
   type: docker-image
   source:
-    username: {{docker-hub-user}}
-    password: {{docker-hub-password}}
-    repository: {{docker-hub-repo}}
+    username: ((docker-hub-user))
+    password: ((docker-hub-password))
+    repository: ((docker-hub-repo))
     tag: latest
 
 jobs:
@@ -37,24 +35,23 @@ jobs:
   plan:
   - get: docker-images
     trigger: true
-  - put: docker-latest-rc
+  - put: ((docker-image-name))-docker-latest-rc
     params:
-      build: docker-images/concourse-ubuntu
+      build: docker-images/((git-folder))
 - name: test-docker-image
   public: true
   plan:
   - get: docker-images
-  - get: docker-latest-rc
+  - get: ((docker-image-name))-docker-latest-rc
     passed: ['build-docker-latest-rc']
     trigger: true
-
   - task: run
     config:
       platform: linux
       image_resource:
         type: docker-image
         source:
-          repository: {{docker-hub-repo}}
+          repository: ((docker-hub-repo))
           tag: latest-rc
       inputs:
       - name: docker-images
@@ -63,10 +60,10 @@ jobs:
 - name: push-docker-latest
   public: true
   plan:
-  - get: build-docker-latest-rc
+  - get: ((docker-image-name))-docker-latest-rc
     passed: ['test-docker-image']
     trigger: true
     params: { save: true }
-  - put: docker-latest
+  - put: ((docker-image-name))-docker-latest
     params:
-      load: docker-latest-rc
+      load: ((docker-image-name))-docker-latest-rc

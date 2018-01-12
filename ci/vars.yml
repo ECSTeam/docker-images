@@ -1,7 +1,7 @@
-docker-hub-repo: taugust/concourse-ubuntu
-docker-hub-user: ((docker-hub-user))
-docker-hub-password: ((docker-hub-password))
-
+docker-hub-repo: cgicloudnative/concourse-ubuntu
+git-repo: https://github.com/ECSTeam/docker-images.git
+git-folder: concourse-ubuntu
+docker-image-name: concourse-ubuntu
 
 # concourse automatically pulls the following from vault;
 # only use if docker hub repo is not "cgicloudnative"
