@@ -7,7 +7,7 @@ groups:
       - 'push-concourse-latest'
 
 resources:
-- name: docker-images-git
+- name: docker-images
   type: git
   source:
     uri: https://github.com/ECSTeam/docker-images.git
@@ -16,14 +16,14 @@ resources:
       - concourse-ubuntu
 
 
-- name: concourse-ubuntu-latest-rc
+- name: docker-latest-rc
   type: docker-image
   source:
     username: ((docker-hub-user))
     password: ((docker-hub-password))
     repository: {{docker-hub-repo}}
     tag: latest-rc
-- name: concourse-ubuntu-latest
+- name: docker-latest
   type: docker-image
   source:
     username: ((docker-hub-user))
@@ -32,20 +32,20 @@ resources:
     tag: latest
 
 jobs:
-- name: build-concourse-latest-rc
+- name: build-docker-latest-rc
   public: true
   plan:
-  - get: docker-images-git
+  - get: docker-images
     trigger: true
-  - put: concourse-ubuntu-latest-rc
+  - put: docker-latest-rc
     params:
-      build: docker-images-git/concourse-ubuntu
+      build: docker-images/concourse-ubuntu
 - name: test-docker-image
   public: true
   plan:
-  - get: docker-images-git
-  - get: concourse-ubuntu-latest-rc
-    passed: ['build-concourse-latest-rc']
+  - get: docker-images
+  - get: docker-latest-rc
+    passed: ['build-docker-latest-rc']
     trigger: true
 
   - task: run
@@ -57,16 +57,16 @@ jobs:
           repository: {{docker-hub-repo}}
           tag: latest-rc
       inputs:
-      - name: docker-images-git
+      - name: docker-images
       run:
-        path: docker-images-git/ci/scripts/test-docker.sh
-- name: push-concourse-latest
+        path: docker-images/ci/scripts/test-docker.sh
+- name: push-docker-latest
   public: true
   plan:
-  - get: concourse-ubuntu-latest-rc
+  - get: build-docker-latest-rc
     passed: ['test-docker-image']
     trigger: true
     params: { save: true }
-  - put: concourse-ubuntu-latest
+  - put: docker-latest
     params:
-      load: concourse-ubuntu-latest-rc
+      load: docker-latest-rc
