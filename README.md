@@ -10,4 +10,5 @@
   image_resource:
     type: docker-image
     source:
-      repository: cgicloudnative/concourse-ubuntu```
+      repository: cgicloudnative/concourse-ubuntu
+```
