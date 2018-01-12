@@ -2,32 +2,32 @@
 groups:
   - name: concourse
     jobs:
-      - 'build-concourse-latest-rc'
+      - 'build-docker-latest-rc'
       - 'test-docker-image'
-      - 'push-concourse-latest'
+      - 'push-docker-latest'
 
 resources:
 - name: docker-images
   type: git
   source:
-    uri: https://github.com/ECSTeam/docker-images.git
+    uri: {{git-repo}}
     branch: master
     paths:
       - concourse-ubuntu
 
 
-- name: docker-latest-rc
+- name: {{docker-name}}-docker-latest-rc
   type: docker-image
   source:
-    username: ((docker-hub-user))
-    password: ((docker-hub-password))
+    username: {{docker-hub-user}}
+    password: {{docker-hub-password}}
     repository: {{docker-hub-repo}}
     tag: latest-rc
 - name: docker-latest
   type: docker-image
   source:
-    username: ((docker-hub-user))
-    password: ((docker-hub-password))
+    username: {{docker-hub-user}}
+    password: {{docker-hub-password}}
     repository: {{docker-hub-repo}}
     tag: latest
 

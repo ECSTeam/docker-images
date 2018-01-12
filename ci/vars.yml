@@ -1,4 +1,7 @@
-docker-hub-repo: cgicloudnative/concourse-ubuntu
+docker-hub-repo: taugust/concourse-ubuntu
+docker-hub-user: ((docker-hub-user))
+docker-hub-password: ((docker-hub-password))
+
 
 # concourse automatically pulls the following from vault;
 # only use if docker hub repo is not "cgicloudnative"
