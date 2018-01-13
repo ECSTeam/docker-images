@@ -7,6 +7,19 @@ groups:
       - 'push-docker-latest'
 
 resources:
+- name: image-version
+  type: semver
+  source:
+    driver: git
+    uri: ((git-repo))
+    branch: version
+    file: ((docker-image-name))-version
+    git_user: ((git-user))
+    password: ((git-password))
+
+## next: add version to jobs (below)
+## check CGI vault for values of git user/password
+
 - name: docker-images
   type: git
   source:
