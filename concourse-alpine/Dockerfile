@@ -14,12 +14,13 @@ RUN wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.45-linux-amd64
     chmod +x bosh-cli-* && \
     mv bosh-cli-* /usr/local/bin/bosh
 
-RUN gem install cf-uaac
+# RUN gem install cf-uaac
+# gem permissions error
 
 # Google Cloud CLI
-RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_VER}-linux-x86_64.tar.gz && \
-    tar xzf google-cloud-sdk-${GCLOUD_VER}-linux-x86_64.tar.gz && \
-    rm google-cloud-sdk-${GCLOUD_VER}-linux-x86_64.tar.gz && \
+RUN wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-185.0.0-linux-x86_64.tar.gz && \
+    tar xzf google-cloud-sdk-185.0.0-linux-x86_64.tar.gz && \
+    rm google-cloud-sdk-185.0.0-linux-x86_64.tar.gz && \
     echo "export PATH=/google-cloud-sdk/bin:$PATH" >> ~/.profile && \
     source ~/.profile
 
