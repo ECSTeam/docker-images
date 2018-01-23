@@ -4,4 +4,5 @@ Lightweight Docker container for Concourse pipelines with the following:
  - AWS CLI
  - GCP CLI
  - Terraform 0.11.2
- - Azure CLI
+ - Azure CLI 2.0
+ - BOSH CLI v2
