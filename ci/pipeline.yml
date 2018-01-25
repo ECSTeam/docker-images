@@ -5,6 +5,7 @@ groups:
       - 'build-docker-latest-rc'
       - 'test-docker-image'
       - 'push-docker-latest'
+      - 'verify-docker-version'
 
 resources:
 - name: version
