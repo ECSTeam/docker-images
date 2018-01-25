@@ -7,15 +7,17 @@ groups:
       - 'push-docker-latest'
 
 resources:
-- name: image-version
+- name: semver
   type: semver
   source:
     driver: git
-    uri: ((git-repo))
-    branch: version
+#    uri: ((git-repo))
+    uri: ((git-repo-ssh))
+    branch: master
     file: ((docker-image-name))-version
-    git_user: ((git-user))
-    password: ((git-password))
+#    username: ((git-user))
+#    password: ((git-password))
+    private_key: ((git-key))
 
 ## next: add version to jobs (below)
 ## check CGI vault for values of git user/password
@@ -48,6 +50,7 @@ jobs:
   plan:
   - get: docker-images
     trigger: true
+  - get: semver
   - put: ((docker-image-name))-docker-latest-rc
     params:
       build: docker-images/((git-folder))
@@ -73,6 +76,8 @@ jobs:
 - name: push-docker-latest
   public: true
   plan:
+  - put: semver
+    params: {bump: minor}
   - get: ((docker-image-name))-docker-latest-rc
     passed: ['test-docker-image']
     trigger: true
