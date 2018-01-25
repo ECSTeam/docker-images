@@ -15,7 +15,7 @@ resources:
     uri: ((git-repo-ssh))
     branch: version
     file: ((docker-image-name))-version
-    private_key: ((git-key))
+    private_key: ((git-svc-user-private-key))
 - name: dockerversion
   type: git
   source:

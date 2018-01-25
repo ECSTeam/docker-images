@@ -1,9 +1,10 @@
-docker-hub-repo: cgicloudnative/concourse-ubuntu
+docker-hub-repo: cgicloudnative/concourse-alpine2
 git-repo: https://github.com/ECSTeam/docker-images.git
-git-folder: concourse-ubuntu
-docker-image-name: concourse-ubuntu
+git-folder: concourse-alpine2
+docker-image-name: concourse-alpine2
+git-repo-ssh: git@github.com:ECSTeam/docker-images.git
 
 # concourse automatically pulls the following from vault;
 # only use if docker hub repo is not "cgicloudnative"
-#docker-hub-user: ((docker-hub-user))
-#docker-hub-password: ((docker-hub-password))
+# docker-hub-user: ((docker-hub-user))
+# docker-hub-password: ((docker-hub-password))
