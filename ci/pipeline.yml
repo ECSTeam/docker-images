@@ -7,21 +7,19 @@ groups:
       - 'push-docker-latest'
 
 resources:
-- name: semver
+- name: version
   type: semver
   source:
     driver: git
-#    uri: ((git-repo))
     uri: ((git-repo-ssh))
-    branch: master
+    branch: version
     file: ((docker-image-name))-version
-#    username: ((git-user))
-#    password: ((git-password))
     private_key: ((git-key))
-
-## next: add version to jobs (below)
-## check CGI vault for values of git user/password
-
+- name: dockerversion
+  type: git
+  source:
+    uri: ((git-repo))
+    branch: version
 - name: docker-images
   type: git
   source:
@@ -48,9 +46,11 @@ jobs:
 - name: build-docker-latest-rc
   public: true
   plan:
+  - put: version
+    params: {bump: minor}
+  - get: dockerversion
   - get: docker-images
     trigger: true
-  - get: semver
   - put: ((docker-image-name))-docker-latest-rc
     params:
       build: docker-images/((git-folder))
@@ -76,8 +76,6 @@ jobs:
 - name: push-docker-latest
   public: true
   plan:
-  - put: semver
-    params: {bump: minor}
   - get: ((docker-image-name))-docker-latest-rc
     passed: ['test-docker-image']
     trigger: true
@@ -85,3 +83,24 @@ jobs:
   - put: ((docker-image-name))-docker-latest
     params:
       load: ((docker-image-name))-docker-latest-rc
+- name: verify-docker-version
+  public: true
+  plan:
+  - get: docker-images
+  - get: dockerversion
+  - get: ((docker-image-name))-docker-latest
+    passed: ['push-docker-latest']
+    trigger: true
+  - task: run
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: ((docker-hub-repo))
+          tag: latest
+      inputs:
+      - name: docker-images
+      - name: dockerversion
+      run:
+        path: docker-images/ci/scripts/verify-docker-version.sh
