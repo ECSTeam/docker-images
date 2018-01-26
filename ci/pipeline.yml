@@ -25,7 +25,7 @@ resources:
   type: git
   source:
     uri: ((git-repo))
-    branch: master
+    branch: semver
     paths:
       - ((git-folder))
 - name: ((docker-image-name))-docker-latest-rc
