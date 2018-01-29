@@ -3,6 +3,7 @@ git-repo: https://github.com/ECSTeam/docker-images.git
 git-folder: concourse-alpine2
 docker-image-name: concourse-alpine2
 git-repo-ssh: git@github.com:ECSTeam/docker-images.git
+vault-insecure-skip-verify: true
 
 # concourse automatically pulls the following from vault;
 # only use if docker hub repo is not "cgicloudnative"
