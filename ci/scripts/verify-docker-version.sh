@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cp dockerversion/concourse-skinny-version version-git
+cp dockerversion/concourse-alpine2-version version-git
+cp ../version .
 
 diff=$(diff version version-git)
 if [[ $? != 0 ]]; then
