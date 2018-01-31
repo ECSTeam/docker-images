@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
+echo -e "cp dockerversion/concourse-alpine2-version version-git"
 cp dockerversion/concourse-alpine2-version version-git
+echo -e "cp /version ."
 cp /version .
 
 diff=$(diff version version-git)
