@@ -4,5 +4,4 @@ RUN apk --no-cache add bash git
 
 ADD semver.sh /opt/scripts/
 
-RUN chmod +x /opt/scripts/semver.sh
 RUN /opt/scripts/semver.sh
