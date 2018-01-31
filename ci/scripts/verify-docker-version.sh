@@ -1,7 +1,8 @@
 #!/bin/bash
+set -e
 
 cp dockerversion/concourse-alpine2-version version-git
-cp ../version .
+cp /version .
 
 diff=$(diff version version-git)
 if [[ $? != 0 ]]; then
