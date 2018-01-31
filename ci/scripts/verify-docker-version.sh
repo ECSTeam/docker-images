@@ -1,10 +1,16 @@
 #!/bin/bash
 set -e
 
+echo -e "running this next..."
 echo -e "cp dockerversion/concourse-alpine2-version version-git"
+echo -e "above ran successfully"
+echo -e "now this..."
 cp dockerversion/concourse-alpine2-version version-git
+echo -e "looks good"
+echo -e "now this one..."
 echo -e "cp /version ."
 cp /version .
+echo -e "yeah!"
 
 diff=$(diff version version-git)
 if [[ $? != 0 ]]; then
