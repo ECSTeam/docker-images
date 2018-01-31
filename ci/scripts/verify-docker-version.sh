@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 
 echo -e "running this next..."
 echo -e "cp dockerversion/concourse-alpine2-version version-git"
