@@ -1,7 +1,7 @@
 #!/bin/bash
 #set -e
 
-echo -e "running this next..."
+echo -e "running this next... uhm... this one..."
 echo -e "cp dockerversion/concourse-alpine2-version version-git"
 echo -e "above ran successfully"
 echo -e "now this..."
