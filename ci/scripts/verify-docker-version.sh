@@ -1,19 +1,21 @@
 #!/bin/bash
 #set -e
 
-echo -e "cp dockerversion/concourse-alpine2-version version-git"
-cp dockerversion/concourse-alpine2-version version-git
-echo -e "cp /version ."
+# Set the following variable to match the name of the version file in git
+VERSION_FILE=concourse-alpine2-version
+
+cp dockerversion/$VERSION_FILE version-git
 cp /version .
 
 diff=$(diff version version-git)
 if [[ $? != 0 ]]; then
-  echo "Bad news: There is a difference."
-  echo "Current version of this Docker image: $(cat version)"
-  echo "Docker image version in github: $(cat version-git)"
-  echo "Now I need to do something drastic..."
-#  exit 1
-  ## take some significant action here!!
+  echo "
+  Bad news: The semver version embedded in the docker image does not match the version in git.
+  Current version of this Docker image: $(cat version)
+  Docker image version in github: $(cat version-git)
+  Check the build and try again.
+  "
+  exit 1
 else
-  echo "no difference"
+  echo "The semver version embedded in the docker image matches the version in git."
 fi
