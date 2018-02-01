@@ -26,7 +26,7 @@ resources:
   type: git
   source:
     uri: ((git-repo-public))
-    branch: semver
+    branch: master
     paths:
       - ((git-folder))
 
@@ -34,7 +34,7 @@ resources:
   type: git
   source:
     uri: ((git-repo-public))
-    branch: semver
+    branch: master
 
 - name: ((docker-image-name))-docker-latest-rc
   type: docker-image
