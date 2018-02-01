@@ -2,7 +2,7 @@
 #set -e
 
 # Set the following variable to match the name of the version file in git
-VERSION_FILE=concourse-alpine2-version
+VERSION_FILE=concourse-alpine-version
 
 cp dockerversion/$VERSION_FILE version-git
 cp /version .
