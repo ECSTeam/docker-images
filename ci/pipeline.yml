@@ -11,6 +11,7 @@ resources:
 - name: version
   type: semver
   source:
+    initial_version: 0.0.0
     driver: git
     uri: ((git-repo-ssh))
     branch: version
@@ -19,15 +20,22 @@ resources:
 - name: dockerversion
   type: git
   source:
-    uri: ((git-repo))
+    uri: ((git-repo-public))
     branch: version
-- name: docker-images
+- name: docker-files-git
   type: git
   source:
-    uri: ((git-repo))
+    uri: ((git-repo-public))
     branch: semver
     paths:
       - ((git-folder))
+
+- name: docker-git
+  type: git
+  source:
+    uri: ((git-repo-public))
+    branch: semver
+
 - name: ((docker-image-name))-docker-latest-rc
   type: docker-image
   source:
@@ -48,17 +56,17 @@ jobs:
   public: true
   plan:
   - put: version
-    params: {bump: minor}
+    params: {bump: patch}
   - get: dockerversion
-  - get: docker-images
+  - get: docker-files-git
     trigger: true
   - put: ((docker-image-name))-docker-latest-rc
     params:
-      build: docker-images/((git-folder))
+      build: docker-files-git/((git-folder))
 - name: test-docker-image
   public: true
   plan:
-  - get: docker-images
+  - get: docker-git
   - get: ((docker-image-name))-docker-latest-rc
     passed: ['build-docker-latest-rc']
     trigger: true
@@ -71,9 +79,9 @@ jobs:
           repository: ((docker-hub-repo))
           tag: latest-rc
       inputs:
-      - name: docker-images
+      - name: docker-git
       run:
-        path: docker-images/ci/scripts/test-docker.sh
+        path: docker-git/ci/scripts/test-docker.sh
 - name: push-docker-latest
   public: true
   plan:
@@ -87,7 +95,7 @@ jobs:
 - name: verify-docker-version
   public: true
   plan:
-  - get: docker-images
+  - get: docker-git
   - get: dockerversion
   - get: ((docker-image-name))-docker-latest
     passed: ['push-docker-latest']
@@ -101,7 +109,7 @@ jobs:
           repository: ((docker-hub-repo))
           tag: latest
       inputs:
-      - name: docker-images
+      - name: docker-git
       - name: dockerversion
       run:
-        path: docker-images/ci/scripts/verify-docker-version.sh
+        path: docker-git/ci/scripts/verify-docker-version.sh

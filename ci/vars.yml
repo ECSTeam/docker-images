@@ -1,9 +1,23 @@
+# Adjust these values based on the specific docker image you're building
+# Uncomment the values as needed
+
+# Docker hub repo that the pipeline will push the final built docker image to:
 docker-hub-repo: cgicloudnative/concourse-alpine2
-git-repo: https://github.com/ECSTeam/docker-images.git
-git-folder: concourse-alpine2
-docker-image-name: concourse-alpine2
+
+# Source repo for Dockerfile and any associated scripts
+git-repo-public: https://github.com/ECSTeam/docker-images.git
+
+# Git repo for semver file - auth required
 git-repo-ssh: git@github.com:ECSTeam/docker-images.git
 
+# Optional folder within the repo that contains the Dockerfile
+# Allows individual folder to be monitored as a concourse trigger
+git-folder: concourse-alpine2
+
+# Name for the docker image
+docker-image-name: concourse-alpine2
+
+############## Values from CGI vault #################
 # concourse automatically pulls the following from vault;
 # only use if docker hub repo is not "cgicloudnative"
 # docker-hub-user: ((docker-hub-user))
