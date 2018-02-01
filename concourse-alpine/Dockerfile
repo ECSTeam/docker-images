@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.7
 
 RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates
 
@@ -30,6 +30,3 @@ ENV PATH $PATH:/usr/src/google-cloud-sdk/bin
 
 RUN pip install azure-cli && \
     gem install cf-uaac --no-document
-
-# docker build --force-rm -t darweshsinghcgi/alpinecloudcli:1.0.0 ~/Documents/GitHub/docker-images/concourse-alpine/
-# docker run -dit darweshsinghcgi/alpinecloudcli:1.0.0
