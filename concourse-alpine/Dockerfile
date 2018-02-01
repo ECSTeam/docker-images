@@ -1,4 +1,7 @@
 FROM alpine:3.7
+ADD semver.sh /opt/scripts/
+
+RUN /opt/scripts/semver.sh
 
 RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates
 
