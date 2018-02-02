@@ -18,3 +18,4 @@ Lightweight Docker container for Concourse pipelines with the following:
  - CredHub 1.5.3
  - fly 3.8.0
  - Vault 0.9.3
+ - cf latest

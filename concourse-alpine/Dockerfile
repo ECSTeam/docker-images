@@ -48,3 +48,8 @@ RUN wget https://releases.hashicorp.com/vault/0.9.3/vault_0.9.3_linux_amd64.zip 
 RUN wget https://github.com/concourse/concourse/releases/download/v3.8.0/fly_linux_amd64 && \
     chmod a+x fly_linux_amd64 && \
     mv fly_linux_amd64 /usr/local/bin/fly
+
+RUN curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx && \
+    rm LICENSE && \
+    rm NOTICE && \
+    mv cf /usr/local/bin/cf
