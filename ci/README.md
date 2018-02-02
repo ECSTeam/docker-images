@@ -7,7 +7,7 @@
 - `test-docker-image`
   - Pulls the previously-built docker image and checks for the presence of a certain set of commands/CLI's, defined in `ci/scripts/test-docker.sh`
   - If those commands exist, this job passes and the next job is kicked off
-- `push-docker-latest`
-  - Pulls the `latest-rc` docker image and re-pushes that exact image with tag: `latest`
 - `verify-docker-version`
   - Compares the `semver` in git repo with the version file written to the docker image during the build
+- `push-docker-latest`
+  - Pulls the `latest-rc` docker image and re-pushes that exact image with tag: `latest`
