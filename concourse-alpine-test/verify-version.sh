@@ -17,5 +17,8 @@ if [[ $? != 0 ]]; then
   "
   exit 1
 else
-  echo "The semver version embedded in the docker image matches the version in git."
+  echo "
+  The semver version embedded in the docker image matches the version in git.
+  Current version is: $(cat version)
+  "
 fi
