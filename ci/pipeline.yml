@@ -4,8 +4,8 @@ groups:
     jobs:
       - 'build-docker-latest-rc'
       - 'test-docker-image'
-      - 'push-docker-latest'
       - 'verify-docker-version'
+      - 'push-docker-latest'
 
 resources:
 - name: version
@@ -82,23 +82,13 @@ jobs:
       - name: docker-git
       run:
         path: docker-git/ci/scripts/test-docker.sh
-- name: push-docker-latest
-  public: true
-  plan:
-  - get: ((docker-image-name))-docker-latest-rc
-    passed: ['test-docker-image']
-    trigger: true
-    params: { save: true }
-  - put: ((docker-image-name))-docker-latest
-    params:
-      load: ((docker-image-name))-docker-latest-rc
 - name: verify-docker-version
   public: true
   plan:
   - get: docker-git
   - get: dockerversion
-  - get: ((docker-image-name))-docker-latest
-    passed: ['push-docker-latest']
+  - get: ((docker-image-name))-docker-latest-rc
+    passed: ['test-docker-image']
     trigger: true
   - task: run
     config:
@@ -107,9 +97,19 @@ jobs:
         type: docker-image
         source:
           repository: ((docker-hub-repo))
-          tag: latest
+          tag: latest-rc
       inputs:
       - name: docker-git
       - name: dockerversion
       run:
-        path: docker-git/ci/scripts/verify-docker-version.sh
+        path: docker-git/((git-folder))/verify-version.sh
+- name: push-docker-latest
+  public: true
+  plan:
+  - get: ((docker-image-name))-docker-latest-rc
+    passed: ['verify-docker-version']
+    trigger: true
+    params: { save: true }
+  - put: ((docker-image-name))-docker-latest
+    params:
+      load: ((docker-image-name))-docker-latest-rc
