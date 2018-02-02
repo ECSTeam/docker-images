@@ -8,9 +8,13 @@ Lightweight Docker container for Concourse pipelines with the following:
     - python
     - pip
     - openssh
- - AWS CLI
- - GCP CLI
- - Azure CLI 2.0
+    - git
+ - AWS latest
+ - GCP latest
+ - Azure latest
  - Terraform 0.11.2
- - BOSH CLI v2
- - UAAC CLI
+ - BOSH 2.0.45
+ - UAAC latest
+ - CredHub 1.5.3
+ - fly 3.8.0
+ - Vault 0.9.3

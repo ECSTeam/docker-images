@@ -39,3 +39,12 @@ RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download
     tar -xzf credhub-linux-1.5.3.tgz && \
     rm credhub-linux-1.5.3.tgz && \
     mv credhub /usr/local/bin/credhub
+
+RUN wget https://releases.hashicorp.com/vault/0.9.3/vault_0.9.3_linux_amd64.zip && \
+    unzip vault_0.9.3_linux_amd64.zip && \
+    rm vault_0.9.3_linux_amd64.zip && \
+    mv vault /usr/local/bin/vault
+
+RUN wget https://github.com/concourse/concourse/releases/download/v3.8.0/fly_linux_amd64 && \
+    chmod a+x fly_linux_amd64 && \
+    mv fly_linux_amd64 /usr/local/bin/fly
