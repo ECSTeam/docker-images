@@ -1,11 +1,11 @@
 # Docker Images
 
  - Pipeline for building and testing docker images
-  - See README.md in `ci` folder
+    - See README.md in `ci` folder
  - Dockerfile definitions, primarily for use in Concourse pipelines
 
 ### concourse-alpine
-  - Alpine 3.7-based Docker container for Concourse pipelines
+  - Alpine-based Docker container for Concourse pipelines
   - Lightweight base image with common linux tools and major cloud CLI's
   - To use in Concourse pipeline:
  ```
