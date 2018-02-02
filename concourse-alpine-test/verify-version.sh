@@ -7,6 +7,9 @@ VERSION_FILE=concourse-alpine-test-version
 cp dockerversion/$VERSION_FILE version-git
 cp /version .
 
+#temp test
+echo "1.1.1" > version
+
 diff=$(diff version version-git)
 if [[ $? != 0 ]]; then
   echo "
