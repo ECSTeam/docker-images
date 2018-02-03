@@ -2,7 +2,7 @@
 # Uncomment the values as needed
 
 # Docker hub repo that the pipeline will push the final built docker image to:
-docker-hub-repo: cgicloudnative/concourse-alpine
+docker-hub-repo: cgicloudnative/concourse-alpine-test
 
 # Source repo for Dockerfile and any associated scripts
 git-repo-public: https://github.com/ECSTeam/docker-images.git
@@ -12,10 +12,10 @@ git-repo-ssh: git@github.com:ECSTeam/docker-images.git
 
 # Optional folder within the repo that contains the Dockerfile
 # Allows individual folder to be monitored as a concourse trigger
-git-folder: concourse-alpine
+git-folder: concourse-alpine-test
 
 # Name for the docker image
-docker-image-name: concourse-alpine
+docker-image-name: concourse-alpine-test
 
 ############## Values from CGI vault #################
 # concourse automatically pulls the following from vault;
