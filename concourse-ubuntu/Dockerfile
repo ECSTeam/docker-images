@@ -52,3 +52,8 @@ RUN wget https://releases.hashicorp.com/vault/0.9.3/vault_0.9.3_linux_amd64.zip 
     unzip vault_0.9.3_linux_amd64.zip && \
     mv vault /usr/local/bin/vault && \
     rm vault_0.9.3_linux_amd64.zip
+
+# install fly cli
+RUN wget https://github.com/concourse/concourse/releases/download/v3.8.0/fly_linux_amd64 && \
+    chmod +x fly_linux_amd64 && \
+    mv fly_linux_amd64 /usr/local/bin/fly
