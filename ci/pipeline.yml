@@ -1,6 +1,6 @@
 ---
 groups:
-  - name: docker-build
+  - name: docker-build-((docker-image-name))
     jobs:
       - 'build-docker-latest-rc'
       - 'test-docker-image'
@@ -10,7 +10,7 @@ resources:
 - name: version
   type: semver
   source:
-    initial_version: 0.0.11
+    initial_version: 0.0.0
     driver: git
     uri: ((git-repo-ssh))
     branch: version
