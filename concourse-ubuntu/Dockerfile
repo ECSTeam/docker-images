@@ -41,3 +41,14 @@ RUN wget https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_
     chmod a+x terraform && \
     mv terraform /usr/local/bin/terraform && \
     rm terraform_0.11.2_linux_amd64.zip
+
+# install credhub and vault
+RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/1.5.3/credhub-linux-1.5.3.tgz && \
+    tar -xvf credhub-linux-1.5.3.tgz && \
+    mv credhub /usr/local/bin/credhub && \
+    rm credhub-linux-1.5.3.tgz
+
+RUN wget https://releases.hashicorp.com/vault/0.9.3/vault_0.9.3_linux_amd64.zip && \
+    unzip vault_0.9.3_linux_amd64.zip && \
+    mv vault /usr/local/bin/vault && \
+    rm vault_0.9.3_linux_amd64.zip
