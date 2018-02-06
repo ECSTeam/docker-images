@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git jq
+RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git
 
 ADD semver.sh /opt/scripts/
 
@@ -32,7 +32,7 @@ RUN set -x && \
 WORKDIR /root
 ENV PATH $PATH:/usr/src/google-cloud-sdk/bin
 
-RUN pip install azure-cli yq && \
+RUN pip install azure-cli && \
     gem install cf-uaac --no-document
 
 RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/1.5.3/credhub-linux-1.5.3.tgz && \
@@ -53,3 +53,11 @@ RUN curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&sou
     rm LICENSE && \
     rm NOTICE && \
     mv cf /usr/local/bin/cf
+
+RUN wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && \
+    chmod +x jq-linux64 && \
+    mv jq-linux64 /usr/local/bin/jq
+
+RUN wget https://github.com/mikefarah/yq/releases/download/1.14.0/yq_linux_amd64 && \
+    chmod +x yq_linux_amd64 && \
+    mv yq_linux_amd64 /usr/local/bin/yq
