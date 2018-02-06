@@ -5,7 +5,7 @@ ADD scripts/install_azure_cli.sh /opt/scripts/
 ADD semver.sh /opt/scripts/
 
 RUN apt-get update && \
-    apt-get install -y unzip wget git gnupg2 curl vim-common lsb-release apt-transport-https apt-utils python3-pip && \
+    apt-get install -y unzip wget git gnupg2 curl vim-common lsb-release apt-transport-https apt-utils python3-pip jq && \
     ln -s /usr/bin/python3 /usr/local/bin/python && \
     pip3 install --upgrade pip
 
@@ -60,3 +60,8 @@ RUN wget https://releases.hashicorp.com/vault/0.9.3/vault_0.9.3_linux_amd64.zip 
 RUN wget https://github.com/concourse/concourse/releases/download/v3.8.0/fly_linux_amd64 && \
     chmod +x fly_linux_amd64 && \
     mv fly_linux_amd64 /usr/local/bin/fly
+
+# install yq
+RUN wget https://github.com/mikefarah/yq/releases/download/1.14.0/yq_linux_amd64 && \
+    chmod +x yq_linux_amd64 && \
+    mv yq_linux_amd64 /usr/local/bin/yq
