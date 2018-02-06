@@ -8,6 +8,10 @@ RUN apt-get update && \
     ln -s /usr/bin/python3 /usr/local/bin/python && \
     pip3 install --upgrade pip
 
+ADD semver.sh /opt/scripts/
+
+RUN /opt/scripts/semver.sh
+
 # Install AWS CLI
 RUN /opt/scripts/install_aws_cli.sh
 
