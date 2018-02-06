@@ -53,3 +53,11 @@ RUN curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&sou
     rm LICENSE && \
     rm NOTICE && \
     mv cf /usr/local/bin/cf
+
+RUN wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && \
+    chmod +x jq-linux64 && \
+    mv jq-linux64 /usr/local/bin/jq
+
+RUN wget https://github.com/mikefarah/yq/releases/download/1.14.0/yq_linux_amd64 && \
+    chmod +x yq_linux_amd64 && \
+    mv yq_linux_amd64 /usr/local/bin/yq

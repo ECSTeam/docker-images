@@ -19,3 +19,5 @@ Lightweight Docker container for Concourse pipelines with the following:
  - fly
  - Vault
  - cf
+ - jq
+ - yq
