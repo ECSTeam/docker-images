@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git
+RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git jq
 
 ADD semver.sh /opt/scripts/
 
@@ -32,7 +32,7 @@ RUN set -x && \
 WORKDIR /root
 ENV PATH $PATH:/usr/src/google-cloud-sdk/bin
 
-RUN pip install azure-cli && \
+RUN pip install azure-cli yq && \
     gem install cf-uaac --no-document
 
 RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/1.5.3/credhub-linux-1.5.3.tgz && \
