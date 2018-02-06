@@ -11,3 +11,5 @@ Ubuntu Xenial-based Docker container for Concourse pipelines with the following:
  - credhub
  - vault
  - fly
+ - jq
+ - yq
