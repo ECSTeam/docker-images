@@ -6,7 +6,7 @@
 GIT_REPO=https://github.com/ECSTeam/docker-images.git
 GIT_REPO_FOLDER=docker-images
 GIT_BRANCH=version
-VERSION_FILE=concourse-ununtu-version
+VERSION_FILE=concourse-ubuntu-version
 
 git clone $GIT_REPO
 cd $GIT_REPO_FOLDER

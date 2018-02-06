@@ -2,13 +2,12 @@ FROM ubuntu:xenial
 
 ADD scripts/install_aws_cli.sh /opt/scripts/
 ADD scripts/install_azure_cli.sh /opt/scripts/
+ADD semver.sh /opt/scripts/
 
 RUN apt-get update && \
     apt-get install -y unzip wget git gnupg2 curl vim-common lsb-release apt-transport-https apt-utils python3-pip && \
     ln -s /usr/bin/python3 /usr/local/bin/python && \
     pip3 install --upgrade pip
-
-ADD semver.sh /opt/scripts/
 
 RUN /opt/scripts/semver.sh
 
