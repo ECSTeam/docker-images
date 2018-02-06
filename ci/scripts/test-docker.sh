@@ -2,7 +2,7 @@
 
 # array defines the commands that this script looks for
 # the script will fail if any of these commands don't exist in the docker image
-array=(aws git az gcloud terraform credhub vault fly)
+array=(aws git az gcloud terraform credhub vault fly jq yq)
 
 for i in "${array[@]}"
 do
