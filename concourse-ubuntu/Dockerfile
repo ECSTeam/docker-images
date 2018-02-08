@@ -73,9 +73,9 @@ RUN wget https://github.com/pivotal-cf/om/releases/download/0.29.0/om-linux && \
     ln -s /usr/local/bin/om-linux /usr/local/bin/om
 
 # install bbl
-RUN wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v6.0.1/bbl-v6.0.1_linux_x86-64 && \
-    chmod +x bbl-v6.0.1_linux_x86-64 && \
-    mv bbl-v6.0.1_linux_x86-64 /usr/local/bin/bbl
+RUN wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v6.1.0/bbl-v6.1.0_linux_x86-64 && \
+    chmod +x bbl-v6.1.0_linux_x86-64 && \
+    mv bbl-v6.1.0_linux_x86-64 /usr/local/bin/bbl
 
 # install cf-mgmt-config
 RUN wget https://github.com/pivotalservices/cf-mgmt/releases/download/v0.0.81/cf-mgmt-config-linux && \
