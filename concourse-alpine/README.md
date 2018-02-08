@@ -1,4 +1,4 @@
-Lightweight Docker container for Concourse pipelines with the following:
+Lightweight Alpine Docker container for Concourse pipelines with the following:
 
  - Basic linux tools
     - apk
@@ -23,3 +23,4 @@ Lightweight Docker container for Concourse pipelines with the following:
  - yq
  - om
  - bbl
+ - cf-mgmt-config
