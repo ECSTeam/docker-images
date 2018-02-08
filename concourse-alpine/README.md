@@ -21,3 +21,5 @@ Lightweight Docker container for Concourse pipelines with the following:
  - cf
  - jq
  - yq
+ - om
+ - bbl
