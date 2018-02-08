@@ -13,3 +13,5 @@ Ubuntu Xenial-based Docker container for Concourse pipelines with the following:
  - fly
  - jq
  - yq
+ - om
+ - bbl

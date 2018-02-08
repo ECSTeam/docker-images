@@ -65,3 +65,14 @@ RUN wget https://github.com/concourse/concourse/releases/download/v3.8.0/fly_lin
 RUN wget https://github.com/mikefarah/yq/releases/download/1.14.0/yq_linux_amd64 && \
     chmod +x yq_linux_amd64 && \
     mv yq_linux_amd64 /usr/local/bin/yq
+
+# install om-linux tool
+RUN wget https://github.com/pivotal-cf/om/releases/download/0.29.0/om-linux && \
+    chmod +x om-linux && \
+    mv om-linux /usr/local/bin/ && \
+    ln -s /usr/local/bin/om-linux /usr/local/bin/om
+
+# install bbl
+RUN wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v6.0.1/bbl-v6.0.1_linux_x86-64 && \
+    chmod +x bbl-v6.0.1_linux_x86-64 && \
+    mv bbl-v6.0.1_linux_x86-64 /usr/local/bin/bbl
