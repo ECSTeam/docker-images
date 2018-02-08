@@ -15,3 +15,4 @@ Ubuntu Xenial-based Docker container for Concourse pipelines with the following:
  - yq
  - om
  - bbl
+ - cf-mgmt-config
