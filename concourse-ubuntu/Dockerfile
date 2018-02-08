@@ -17,7 +17,7 @@ RUN /opt/scripts/install_aws_cli.sh
 # Install BOSH CLI v2 and dependencies
 RUN apt-get update && \
     apt-get install -y build-essential zlibc zlib1g-dev ruby ruby-dev openssl libxslt-dev libxml2-dev libssl-dev libreadline6 libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 && \
-    wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.45-linux-amd64 && \
+    wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-linux-amd64 && \
     chmod +x bosh-cli-* && \
     mv bosh-cli-* /usr/local/bin/bosh
 
