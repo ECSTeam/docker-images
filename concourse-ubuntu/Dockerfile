@@ -39,11 +39,11 @@ RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
 RUN /opt/scripts/install_azure_cli.sh
 
 # get and configure terraform
-RUN wget https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip && \
-    unzip terraform_0.11.2_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip && \
+    unzip terraform_0.11.3_linux_amd64.zip && \
     chmod a+x terraform && \
     mv terraform /usr/local/bin/terraform && \
-    rm terraform_0.11.2_linux_amd64.zip
+    rm terraform_0.11.3_linux_amd64.zip
 
 # install credhub and vault
 RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/1.5.3/credhub-linux-1.5.3.tgz && \
