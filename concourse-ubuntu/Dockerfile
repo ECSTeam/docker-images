@@ -24,10 +24,10 @@ RUN apt-get update && \
 RUN gem install cf-uaac
 
 # Install cf-cli
-RUN wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add - && \
-    echo "deb http://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list && \
-    apt-get update && \
-    apt-get install -y cf-cli
+RUN curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx && \
+    rm LICENSE && \
+    rm NOTICE && \
+    mv cf /usr/local/bin/cf
 
 # Install Google Cloud CLI
 RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
