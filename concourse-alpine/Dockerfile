@@ -15,11 +15,11 @@ RUN wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-linux-amd64
     chmod +x bosh-cli-* && \
     mv bosh-cli-* /usr/local/bin/bosh
 
-RUN wget https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip && \
-    unzip terraform_0.11.3_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/0.11.4/terraform_0.11.4_linux_amd64.zip && \
+    unzip terraform_0.11.4_linux_amd64.zip && \
     chmod a+x terraform && \
     mv terraform /usr/local/bin/terraform && \
-    rm terraform_0.11.3_linux_amd64.zip
+    rm terraform_0.11.4_linux_amd64.zip
 
 RUN set -x && \
     curl -sSL -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
