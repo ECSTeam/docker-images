@@ -24,8 +24,8 @@ RUN wget https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linu
 RUN set -x && \
     curl -sSL -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-297.0.1-linux-x86_64.tar.gz && \
     mkdir -p /usr/src/google-cloud-sdk && \
-    tar -xzf /tmp/google-cloud-sdk-297.0.1-linux-x86_64.tar.gz -C /usr/src/google-cloud-sdk --strip-components 1 && \
-    rm /tmp/google-cloud-sdk-297.0.1-linux-x86_64.tar.gz && \
+    tar -xzf /tmp/google-cloud-sdk.tar.gz -C /usr/src/google-cloud-sdk --strip-components 1 && \
+    rm /tmp/google-cloud-sdk.tar.gz && \
     (cd /usr/src/google-cloud-sdk && \
 		./install.sh)
 
@@ -63,11 +63,11 @@ RUN wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64 
     mv yq_linux_amd64 /usr/local/bin/yq
 
 RUN wget https://github.com/pivotal-cf/om/releases/download/5.0.0/om-linux-5.0.0 && \
-    chmod +x om-linux && \
-    mv om-linux /usr/local/bin/om-linux && \
+    chmod +x om-linux-5.0.0 && \
+    mv om-linux-5.0.0 /usr/local/bin/om-linux && \
     ln -s /usr/local/bin/om-linux /usr/local/bin/om
 
-RUN https://github.com/cloudfoundry/bosh-bootloader/releases/download/v8.4.0/bbl-v8.4.0_linux_x86-64 \
+RUN wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v8.4.0/bbl-v8.4.0_linux_x86-64 && \
     chmod +x bbl-v8.4.0_linux_x86-64 && \
     mv bbl-v8.4.0_linux_x86-64 /usr/local/bin/bbl
 
