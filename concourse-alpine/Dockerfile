@@ -1,31 +1,31 @@
 FROM alpine:3.7
 
 RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git linux-headers
-
+RUN pip install --upgrade pip
 ADD semver.sh /opt/scripts/
 
 RUN /opt/scripts/semver.sh
 
-RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
-    unzip awscli-bundle.zip && \
-    ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
-    rm awscli-bundle.zip
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install -i /usr/local/aws -b /usr/local/bin/aws && \
+    rm awscliv2.zip
 
-RUN wget https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.48-linux-amd64 && \
+RUN wget https://github.com/cloudfoundry/bosh-cli/releases/download/v6.3.0/bosh-cli-6.3.0-linux-amd64 && \
     chmod +x bosh-cli-* && \
     mv bosh-cli-* /usr/local/bin/bosh
 
-RUN wget https://releases.hashicorp.com/terraform/0.11.4/terraform_0.11.4_linux_amd64.zip && \
-    unzip terraform_0.11.4_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linux_amd64.zip && \
+    unzip terraform_0.11.14_linux_amd64.zip && \
     chmod a+x terraform && \
     mv terraform /usr/local/bin/terraform && \
-    rm terraform_0.11.4_linux_amd64.zip
+    rm terraform_0.11.14_linux_amd64.zip
 
 RUN set -x && \
-    curl -sSL -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
+    curl -sSL -o /tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-297.0.1-linux-x86_64.tar.gz && \
     mkdir -p /usr/src/google-cloud-sdk && \
-    tar -xzf /tmp/google-cloud-sdk.tar.gz -C /usr/src/google-cloud-sdk --strip-components 1 && \
-    rm /tmp/google-cloud-sdk.tar.gz && \
+    tar -xzf /tmp/google-cloud-sdk-297.0.1-linux-x86_64.tar.gz -C /usr/src/google-cloud-sdk --strip-components 1 && \
+    rm /tmp/google-cloud-sdk-297.0.1-linux-x86_64.tar.gz && \
     (cd /usr/src/google-cloud-sdk && \
 		./install.sh)
 
@@ -35,42 +35,42 @@ ENV PATH $PATH:/usr/src/google-cloud-sdk/bin
 RUN pip install azure-cli && \
     gem install cf-uaac --no-document
 
-RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/1.5.3/credhub-linux-1.5.3.tgz && \
-    tar -xzf credhub-linux-1.5.3.tgz && \
-    rm credhub-linux-1.5.3.tgz && \
+RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/2.7.0/credhub-linux-2.7.0.tgz && \
+    tar -xzf credhub-linux-2.7.0.tgz && \
+    rm credhub-linux-2.7.0.tgz && \
     mv credhub /usr/local/bin/credhub
 
-RUN wget https://releases.hashicorp.com/vault/0.9.3/vault_0.9.3_linux_amd64.zip && \
-    unzip vault_0.9.3_linux_amd64.zip && \
-    rm vault_0.9.3_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/vault/1.4.2/vault_1.4.2_linux_amd64.zip && \
+    unzip vault_1.4.2_linux_amd64.zip && \
+    rm vault_1.4.2_linux_amd64.zip && \
     mv vault /usr/local/bin/vault
 
-RUN wget https://github.com/concourse/concourse/releases/download/v3.8.0/fly_linux_amd64 && \
-    chmod a+x fly_linux_amd64 && \
-    mv fly_linux_amd64 /usr/local/bin/fly
+RUN wget https://github.com/concourse/concourse/releases/download/v6.3.0/fly-6.3.0-linux-amd64.tgz && \
+    chmod a+x fly-6.3.0-linux-amd64.tgz && \
+    mv fly-6.3.0-linux-amd64.tgz /usr/local/bin/fly
 
 RUN curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&source=github" | tar -zx && \
     rm LICENSE && \
     rm NOTICE && \
     mv cf /usr/local/bin/cf
 
-RUN wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && \
+RUN wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
     chmod +x jq-linux64 && \
     mv jq-linux64 /usr/local/bin/jq
 
-RUN wget https://github.com/mikefarah/yq/releases/download/1.14.0/yq_linux_amd64 && \
+RUN wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64 && \
     chmod +x yq_linux_amd64 && \
     mv yq_linux_amd64 /usr/local/bin/yq
 
-RUN wget https://github.com/pivotal-cf/om/releases/download/0.29.0/om-linux && \
+RUN wget https://github.com/pivotal-cf/om/releases/download/5.0.0/om-linux-5.0.0 && \
     chmod +x om-linux && \
     mv om-linux /usr/local/bin/om-linux && \
     ln -s /usr/local/bin/om-linux /usr/local/bin/om
 
-RUN wget https://github.com/cloudfoundry/bosh-bootloader/releases/download/v6.1.0/bbl-v6.1.0_linux_x86-64 && \
-    chmod +x bbl-v6.1.0_linux_x86-64 && \
-    mv bbl-v6.1.0_linux_x86-64 /usr/local/bin/bbl
+RUN https://github.com/cloudfoundry/bosh-bootloader/releases/download/v8.4.0/bbl-v8.4.0_linux_x86-64 \
+    chmod +x bbl-v8.4.0_linux_x86-64 && \
+    mv bbl-v8.4.0_linux_x86-64 /usr/local/bin/bbl
 
-RUN wget https://github.com/pivotalservices/cf-mgmt/releases/download/v0.0.81/cf-mgmt-config-linux && \
+RUN wget https://github.com/vmwarepivotallabs/cf-mgmt/releases/download/v1.0.45/cf-mgmt-config-linux && \
     chmod +x cf-mgmt-config-linux && \
     mv cf-mgmt-config-linux /usr/local/bin/cf-mgmt-config
