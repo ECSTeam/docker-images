@@ -1,16 +1,33 @@
 FROM alpine:3.7
 
-RUN apk --no-cache add tar sudo bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git linux-headers
+RUN apk --no-cache add tar sudo bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates git linux-headers
 
 RUN pip install --upgrade pip
 ADD semver.sh /opt/scripts/
 
 RUN /opt/scripts/semver.sh
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && \
-    ./aws/install -i /usr/local/aws -b /usr/local/bin/aws && \
-    rm awscliv2.zip
+ARG GLIBC_VER=2.31-r0
+
+RUN curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub \
+    && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-${GLIBC_VER}.apk \
+    && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-bin-${GLIBC_VER}.apk \
+    && apk add --no-cache \
+        glibc-${GLIBC_VER}.apk \
+        glibc-bin-${GLIBC_VER}.apk \
+    && curl -sL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip \
+    && unzip awscliv2.zip \
+    && aws/install \
+    && rm -rf \
+        awscliv2.zip \
+        aws \
+        /usr/local/aws-cli/v2/*/dist/aws_completer \
+        /usr/local/aws-cli/v2/*/dist/awscli/data/ac.index \
+        /usr/local/aws-cli/v2/*/dist/awscli/examples \
+    && apk --no-cache del \
+    && rm glibc-${GLIBC_VER}.apk \
+    && rm glibc-bin-${GLIBC_VER}.apk \
+    && rm -rf /var/cache/apk/*
 
 RUN wget https://github.com/cloudfoundry/bosh-cli/releases/download/v6.3.0/bosh-cli-6.3.0-linux-amd64 && \
     chmod +x bosh-cli-* && \
