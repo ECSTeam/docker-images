@@ -1,7 +1,8 @@
 FROM alpine:3.7
 
+RUN apk update 
 RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git linux-headers
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip 
 ADD semver.sh /opt/scripts/
 
 RUN /opt/scripts/semver.sh
