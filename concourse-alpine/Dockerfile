@@ -1,6 +1,7 @@
 FROM alpine:3.7
 
-RUN apk --no-cache add bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git linux-headers
+RUN apk --no-cache add tar sudo bash wget curl python gcc python-dev jq openssh make g++ musl-dev groff less openssl openssl-dev py-pip py3-pip ruby ruby-dev python3 libffi-dev ca-certificates libc6-compat git linux-headers
+
 RUN pip install --upgrade pip
 ADD semver.sh /opt/scripts/
 
@@ -32,8 +33,20 @@ RUN set -x && \
 WORKDIR /root
 ENV PATH $PATH:/usr/src/google-cloud-sdk/bin
 
-RUN pip install azure-cli && \
-    gem install cf-uaac --no-document
+RUN apk --update --no-cache add postgresql-client postgresql
+
+RUN apk add --virtual=build gcc libffi-dev musl-dev openssl-dev make python3-dev
+
+RUN pip3 install virtualenv &&\
+    python3 -m virtualenv /azure-cli
+
+ARG AZURE_CLI_VERSION=2.7.0
+
+RUN /azure-cli/bin/python -m pip --no-cache-dir install azure-cli==${AZURE_CLI_VERSION}
+RUN echo -e "#!/usr/bin/env sh \n\n /azure-cli/bin/python -m azure.cli "$@"" > /usr/bin/az
+RUN chmod +x  /usr/bin/az
+
+RUN gem install cf-uaac --no-document
 
 RUN wget https://github.com/cloudfoundry-incubator/credhub-cli/releases/download/2.7.0/credhub-linux-2.7.0.tgz && \
     tar -xzf credhub-linux-2.7.0.tgz && \
