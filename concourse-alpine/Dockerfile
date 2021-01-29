@@ -130,5 +130,5 @@ RUN wget https://github.com/vmwarepivotallabs/cf-mgmt/releases/download/v${CF_MG
 RUN sudo gem install bundler --no-rdoc --no-ri
 RUN gem update --system --no-document
 RUN gem install json --no-document
-RUN gem install cf-uaac -v 3.2.0 --no-document
+RUN gem install cf-uaac --no-document
 
